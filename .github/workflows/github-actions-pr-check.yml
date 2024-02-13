@@ -18,3 +18,4 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           exempt-labels: no qa
+          template-path: pull_request_template.md
