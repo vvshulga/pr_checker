@@ -23,9 +23,8 @@ jobs:
       run:
         working-directory: ./.github/scripts/
     steps:
-      - name: Run script
-        uses: actions/checkout@v4
-        run: go run check_pr.go
-          with:
-            repo-token: ${{ secrets.jbalenh32_asdfa }}
+      - uses: actions/checkout@v4
+      - run: go run check_pr.go
+        with:
+          repo-token: ${{ secrets.jbalenh32_asdfa }}
 
