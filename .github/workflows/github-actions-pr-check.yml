@@ -19,9 +19,6 @@ jobs:
       - run: go version
   check-pr-description:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .github/scripts
     steps:
       - name: Run script
-        run: go run ./check_pr.go
+        run: go run .github/scripts/check_pr.go
