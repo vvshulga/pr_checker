@@ -27,4 +27,4 @@ jobs:
       - name: Run script
         with:
           repo-token: ${{ secrets.jbalenh32_asdfa }}
-        run: go run check_pr.go
+      - run: go run check_pr.go
