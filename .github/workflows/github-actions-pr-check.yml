@@ -21,4 +21,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run script
-        run: go run .github/scripts/check_pr.go
+        run: go run ./.github/scripts/check_pr.go
