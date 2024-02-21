@@ -9,13 +9,16 @@ on:
       - unlabeled
 
 jobs:
+  setup-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.17.0'
+      - run: go version
   check-pr-description:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: jadrol/pr-description-checker-action@v1.0.0
-        id: description-checker
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          exempt-labels: no qa
-          template-path: "./.github/pull_request_template.md"
+      - name: Run script
+        run: go run ./.github/scripts/check_pr.go
