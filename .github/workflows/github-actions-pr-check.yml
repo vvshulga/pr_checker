@@ -25,6 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: go run check_pr.go
-        with:
+        env:
           repo-token: ${{ secrets.jbalenh32_asdfa }}
 
