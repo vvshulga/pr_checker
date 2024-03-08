@@ -78,7 +78,7 @@ func main() {
 
 	skipCheck := false
 	for _, label := range pr.Labels {
-		for _, exemptLabel := range SkipLabels {
+		for _, exemptLabel := range skipLabels {
 			if label.GetName() == strings.Trim(exemptLabel, " ") {
 				skipCheck = true
 				break
