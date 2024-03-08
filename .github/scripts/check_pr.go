@@ -3,19 +3,26 @@ package main
 import (
 	"context"
 	"fmt"
+	"strconv"
 
-	"github.com/google/go-github/v57/github"
+	"github.com/google/go-github/v59/github"
 	"github.com/sethvargo/go-githubactions"
 	"golang.org/x/oauth2"
 )
 
 type config struct {
-	token string
+	token     string
+	repoOwner string
+	repoName  string
+	prNumber  int
 }
 
 func initConfig() *config {
 	cfg := config{
-		token: githubactions.GetInput("repo-token"),
+		token:     githubactions.GetInput("repo-token"),
+		repoOwner: githubactions.GetInput("repo-owner"),
+		repoName:  githubactions.GetInput("repo-name"),
+		prNumber:  strconv.Atoi(githubactions.GetInput("pr-number")),
 	}
 	return &cfg
 }
@@ -35,5 +42,7 @@ func main() {
 
 	client := newGithubClient(cfg.token)
 
-	fmt.Println(client)
+	pr, _, _ := client.PullRequests.Get(context.Background(), cfg.repoOwner, cfg.repoName, cfg.prNumber)
+
+	fmt.Println(pr)
 }
