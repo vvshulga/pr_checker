@@ -43,7 +43,12 @@ func main() {
 
 	client := newGithubClient(cfg.token)
 
-	pr, _, _ := client.PullRequests.Get(context.Background(), cfg.repoOwner, cfg.repoName, cfg.prNumber)
+	pr, a, b := client.PullRequests.Get(context.Background(), cfg.repoOwner, cfg.repoName, cfg.prNumber)
 
 	fmt.Println(pr)
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(cfg.repoOwner)
+	fmt.Println(cfg.repoName)
+	fmt.Println(cfg.prNumber)
 }
