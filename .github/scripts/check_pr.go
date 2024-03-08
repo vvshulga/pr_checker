@@ -22,6 +22,7 @@ type config struct {
 
 var (
 	markdownCommentRegex = regexp.MustCompile(`\<\!\-\-\-.*\-\-\>`)
+	blockHeaderRegex = "(?m)^\s*#([^#].*?)$"
 	SkipLabels           = [...]string{"hotfix"}
 )
 
@@ -52,6 +53,20 @@ func normalizeDescription(description string) string {
 	return description
 }
 
+func splitByBlocks(txt string) string[] {
+	re := regexp.MustCompile(blockHeaderRegex)
+
+	split := re.Split(txt, -1)
+    blocks := []string{}
+
+    for i := range split {
+        blocks = append(blocks, split[i])
+    }
+
+	fmt.Println(blocks)
+    return blocks
+}
+
 func main() {
 	fmt.Println("Test message - go script was run successfully.")
 
@@ -78,5 +93,7 @@ func main() {
 
 	description := normalizeDescription(pr.GetBody())
 	fmt.Println(description)
+
+	splitByBlocks(description)
 	githubactions.Infof("TEST message - INFO method")
 }
