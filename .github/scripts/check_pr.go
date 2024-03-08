@@ -22,7 +22,7 @@ type config struct {
 
 var (
 	markdownCommentRegex = regexp.MustCompile(`\<\!\-\-\-.*\-\-\>`)
-	blockHeaderRegex = "(?m)^\s*#([^#].*?)$"
+	blockHeaderRegex = `(?m)^\s*#([^#].*?)$`
 	SkipLabels           = [...]string{"hotfix"}
 )
 
