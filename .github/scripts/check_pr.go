@@ -18,11 +18,12 @@ type config struct {
 }
 
 func initConfig() *config {
+	prNumber, _ := strconv.Atoi(githubactions.GetInput("pr-number"))
 	cfg := config{
 		token:     githubactions.GetInput("repo-token"),
 		repoOwner: githubactions.GetInput("repo-owner"),
 		repoName:  githubactions.GetInput("repo-name"),
-		prNumber:  strconv.Atoi(githubactions.GetInput("pr-number")),
+		prNumber:  prNumber,
 	}
 	return &cfg
 }
