@@ -22,8 +22,8 @@ type config struct {
 
 var (
 	markdownCommentRegex = regexp.MustCompile(`\<\!\-\-\-.*\-\-\>`)
-	blockHeaderRegex = `(?m)^\s*#([^#].*?)$`
-	SkipLabels           = [...]string{"hotfix"}
+	blockHeaderRegex     = `(?m)^\s*##([^#].*?)$`
+	skipLabels           = [...]string{"hotfix"}
 )
 
 func initConfig() *config {
@@ -53,18 +53,18 @@ func normalizeDescription(description string) string {
 	return description
 }
 
-func splitByBlocks(txt string) string[] {
+func splitByBlocks(txt string) []string {
 	re := regexp.MustCompile(blockHeaderRegex)
 
 	split := re.Split(txt, -1)
-    blocks := []string{}
+	blocks := []string{}
 
-    for i := range split {
-        blocks = append(blocks, split[i])
-    }
+	for i := range split {
+		blocks = append(blocks, split[i])
+	}
 
 	fmt.Println(blocks)
-    return blocks
+	return blocks
 }
 
 func main() {
