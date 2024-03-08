@@ -23,6 +23,8 @@ jobs:
       run:
         working-directory: ./.github/scripts/
     steps:
+      - name: Display Go version
+        run: go version
       - uses: actions/checkout@v4
       - run: go run check_pr.go
         env:
