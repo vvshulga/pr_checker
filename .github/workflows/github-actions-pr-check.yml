@@ -36,5 +36,5 @@ jobs:
           INPUT_PR-NUMBER: ${{ github.event.number }}
           INPUT_REPO-OWNER: ${{ github.event.repository.owner.login }}
           INPUT_REPO-NAME: ${{ github.event.repository.name }}
-          REPO-TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_REPO-TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
