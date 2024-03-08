@@ -31,7 +31,7 @@ jobs:
         run: go get .
       - name: Build
         run: go build -v ./...
-      - run: go run check_pr
+      - run: go run main
         env:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
