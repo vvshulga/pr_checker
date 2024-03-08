@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 	"strconv"
+	"strings"
 
 	"github.com/google/go-github/v59/github"
 	"github.com/sethvargo/go-githubactions"
@@ -16,6 +18,8 @@ type config struct {
 	repoName  string
 	prNumber  int
 }
+
+var SkipLabels = [...]string{"hotfix"}
 
 func initConfig() *config {
 	prNumber, _ := strconv.Atoi(githubactions.GetInput("pr-number"))
@@ -36,6 +40,14 @@ func newGithubClient(token string) *github.Client {
 	return github.NewClient(tc)
 }
 
+// func normalizeDescription(description string) string {
+// 	description = strings.Replace(description, "\r\n", "\n", -1)
+// 	description = markdownCommentRegex.ReplaceAllString(description, "")
+// 	description = strings.TrimSpace(description)
+
+// 	return description
+// }
+
 func main() {
 	fmt.Println("Test message - go script was run successfully.")
 
@@ -43,12 +55,25 @@ func main() {
 
 	client := newGithubClient(cfg.token)
 
-	pr, a, b := client.PullRequests.Get(context.Background(), cfg.repoOwner, cfg.repoName, cfg.prNumber)
+	pr, _, _ := client.PullRequests.Get(context.Background(), cfg.repoOwner, cfg.repoName, cfg.prNumber)
 
-	fmt.Println(pr)
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(cfg.repoOwner)
-	fmt.Println(cfg.repoName)
-	fmt.Println(cfg.prNumber)
+	skipCheck := false
+	for _, label := range pr.Labels {
+		for _, exemptLabel := range SkipLabels {
+			if label.GetName() == strings.Trim(exemptLabel, " ") {
+				skipCheck = true
+				break
+			}
+		}
+	}
+
+	if skipCheck {
+		githubactions.Infof("Skipping check because of exempt label")
+		os.Exit(0)
+	}
+
+	// description := normalizeDescription(pr.GetBody())
+	description := pr.GetBody()
+	fmt.Println(description)
+	githubactions.Infof("TEST message - INFO method")
 }
