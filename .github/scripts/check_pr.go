@@ -35,4 +35,5 @@ func main() {
 
 	client := newGithubClient(cfg.token)
 
+	fmt.Println(client)
 }
