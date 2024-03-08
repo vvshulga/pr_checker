@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -19,7 +20,10 @@ type config struct {
 	prNumber  int
 }
 
-var SkipLabels = [...]string{"hotfix"}
+var (
+	markdownCommentRegex = regexp.MustCompile(`\<\!\-\-\-.*\-\-\>`)
+	SkipLabels           = [...]string{"hotfix"}
+)
 
 func initConfig() *config {
 	prNumber, _ := strconv.Atoi(githubactions.GetInput("pr-number"))
@@ -40,13 +44,13 @@ func newGithubClient(token string) *github.Client {
 	return github.NewClient(tc)
 }
 
-// func normalizeDescription(description string) string {
-// 	description = strings.Replace(description, "\r\n", "\n", -1)
-// 	description = markdownCommentRegex.ReplaceAllString(description, "")
-// 	description = strings.TrimSpace(description)
+func normalizeDescription(description string) string {
+	description = strings.Replace(description, "\r\n", "\n", -1)
+	description = markdownCommentRegex.ReplaceAllString(description, "")
+	description = strings.TrimSpace(description)
 
-// 	return description
-// }
+	return description
+}
 
 func main() {
 	fmt.Println("Test message - go script was run successfully.")
@@ -72,8 +76,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	// description := normalizeDescription(pr.GetBody())
-	description := pr.GetBody()
+	description := normalizeDescription(pr.GetBody())
 	fmt.Println(description)
 	githubactions.Infof("TEST message - INFO method")
 }
